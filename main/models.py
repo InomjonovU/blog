@@ -12,6 +12,8 @@ class CustomUser(AbstractUser):
     instagram = models.URLField(null=True, blank=True)
     followers = models.ManyToManyField('self')
     following = models.ManyToManyField('self')
+    first_name = models.CharField(max_length=30, default='')
+    last_name = models.CharField(max_length=30, default='')
 
     def __str__(self):
         return self.username
@@ -26,20 +28,14 @@ class Tag(models.Model):
 
 class Post(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
     text = models.TextField()
     tag = models.ManyToManyField(Tag)
     created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.text
-
-
-class PostImages(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='post_images/', null=True, blank=True)
 
     def __str__(self):
-        return self.post.title
+        return self.text
 
 
 class Comment(models.Model):

@@ -1,0 +1,39 @@
+{% extends 'front/base.html' %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Profilni tahrirlash</h5>
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <label for="username">Username</label>
+                            <input type="text" name="username" id="username" class="form-control" value="{{ user.username }}">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" id="email" class="form-control" value="{{ user.email }}">
+                            <label for="first_name">Ism</label>
+                            <input type="text" name="first_name" id="first_name" class="form-control" value="{{ user.first_name }}">
+                            <label for="last_name">Familya</label>
+                            <input type="text" name="last_name" id="last_name" class="form-control" value="{{ user.last_name }}">
+                            <label for="bio">Bio</label>
+                            <textarea name="bio" id="bio" class="form-control">{{ user.bio }}</textarea>
+                            <label for="address">Manzil</label>
+                            <input type="text" name="address" id="address" class="form-control" value="{{ user.address }}">
+                            <label for="website">Veb-sayt</label>
+                            <input type="text" name="website" id="website" class="form-control" value="{{ user.website }}">
+                            <label for="telegram">Telegram</label>
+                            <input type="text" name="telegram" id="telegram" class="form-control" value="{{ user.telegram }}">
+                            <label for="instagram">Instagram</label>
+                            <input type="text" name="instagram" id="instagram" class="form-control" value="{{ user.instagram }}">
+                            <label for="profile_image">Profil rasm</label>
+                            <input type="file" name="profile_image" id="profile_image" class="form-control">
+                            <button type="submit" class="btn btn-primary">Saqlash</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

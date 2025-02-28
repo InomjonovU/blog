@@ -1,0 +1,37 @@
+{% extends 'front/base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Foydalanuvchilar</h1>
+            <form method="GET" class="mb-4">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Foydalanuvchi qidirish..." value="{{ search }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Qidirish</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="row">
+                {% for user in users %}
+                    {% if request.user.username != user.username %}
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ user.username }}</h5>
+                                <p class="card-text">{{ user.profile.bio }}</p>
+                                <a href="{% url 'main:user_profile_detail' user.id %}" class="btn btn-primary">Profil</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

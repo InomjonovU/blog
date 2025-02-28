@@ -1,0 +1,12 @@
+{% extends 'front/base.html' %}
+
+{% block content %}
+    <h1>Obunalar</h1>
+    <ul>
+        {% for follow in following %}
+            <a href="{{ url 'main:user_profile_detail' follow.id }}"></a>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+
