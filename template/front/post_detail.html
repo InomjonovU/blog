@@ -15,23 +15,22 @@
 
                     <!-- Like tugmasi -->
                     <div class="d-flex align-items-center mb-3">
-                        <form action="#" method="POST">
+                        <form action="{% url 'main:like_or_dislike_post' post.id %}" method="POST">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-outline-primary">
-                                {% if request.user in post.likes.all %}
-                                    <i class="fas fa-heart"></i>
+                                {% if is_liked %}
+                                <i class="menu-icon tf-icons bx bxs-like"></i>
                                 {% else %}
-                                    <i class="far fa-heart"></i>
+                                    <i class="menu-icon tf-icons bx bx-like"></i>
                                 {% endif %}
-                                <span>{{ post.likes.count }}</span>
+                                <span>{{ post.likes_count }}</span>
                             </button>
                         </form>
                     </div>
-
                     <div class="comments mt-4">
-                        <h4>Izohlar ({{ post.comments.count }})</h4>
+                        <h4>Izohlar <strong>{{ post.comments_count }}</strong></h4>
                         {% if user.is_authenticated %}
-                        <form action="#" method="POST" class="mb-4">
+                        <form action="{% url 'main:comment' post.id %}" method="POST" class="mb-4">
                             {% csrf_token %}
                             <div class="form-group">
                                 <textarea name="content" class="form-control" rows="3" placeholder="Izohingizni yozing..."></textarea>
@@ -41,11 +40,11 @@
                         {% endif %}
 
                         <!-- Mavjud izohlar -->
-                        {% for comment in comments %}
+                        {% for comment in post.comments %}
                         <div class="comment border-bottom py-2">
                             <strong>{{ comment.user.username }}</strong>
                             <small class="text-muted">{{ comment.created_at|timesince }} oldin</small>
-                            <p>{{ comment.content }}</p>
+                            <p>{{ comment.text }}</p>
                         </div>
                         {% endfor %}
                     </div>

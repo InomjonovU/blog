@@ -36,6 +36,22 @@ class Post(models.Model):
 
     def __str__(self):
         return self.text
+    
+    @property
+    def likes(self):
+        return Like.objects.filter(post=self)
+    
+    @property
+    def likes_count(self):
+        return self.likes.count()
+    
+    @property
+    def comments(self):
+        return Comment.objects.filter(post=self)
+    
+    @property
+    def comments_count(self):
+        return self.comments.count()
 
 
 class Comment(models.Model):
