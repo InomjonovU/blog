@@ -58,6 +58,9 @@ def create_post(request):
 @login_required(login_url='main:login')
 def post_detail(request, post_id):
     post = Post.objects.get(id=post_id)
+    if request.method == 'POST':
+        text = request.POST['content']
+        Comment.objects.create(post=post, user=request.user, text=text)
     comments = Comment.objects.filter(post=post)
     return render(request, 'front/post_detail.html', {'post': post, 'comments': comments})
 
