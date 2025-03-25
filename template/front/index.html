@@ -1,33 +1,45 @@
 {% extends 'front/base.html' %}
 
 {% block content %}
-    <main class="container py-5">
-        <div class="jumbotron text-center mt-5">
-            <h1 class="display-4">Xush kelibsiz!</h1>
-            <a href="{% url 'main:posts' %}" class="btn btn-primary">Postlar</a>
-        </div>
-    </main>
-    <div class="container">
-        <div class="row" width="100%">
-            <div class="col-md-4" width="100%">
-                <div class="card" width="100%">
-                    <div class="card-header">
-                        <h5 class="text-center">Postlar</h5>
-                    </div>
-                    <div class="card" width="100%">
-                        {% for post in posts %}
-                            <div class="card-body">
-                                <img src="{{ post.image.url }}" alt="" width="100%">
-                                <h5 class="card-title">{{ post.title }}</h5>
-                                <p class="card-text">{{ post.content|truncatewords:30 }}</p>
-                                <a href="{% url 'main:post_detail' post.id %}" class="btn btn-primary">Batafsil</a>
-                            </div>
-                        {% endfor %}
-                    </div>
+<main class="container py-5">
+    <div class="jumbotron text-center mt-5">
+        <h1 class="display-4 fw-bold">🚀 Xush kelibsiz!</h1>
+        <p class="lead">Bizning eng so‘nggi postlarimizni o‘qing!</p>
+        <a href="{% url 'main:posts' %}" class="btn btn-primary btn-lg">📌 Postlar</a>
+    </div>
+</main>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-primary text-white text-center">
+                    <h5 class="fw-bold">📝 So‘nggi Postlar</h5>
+                </div>
+                <div class="card-body p-4">
+                    {% if posts %}
+                        <div class="row">
+                            {% for post in posts %}
+                                <div class="col-md-6 mb-4">
+                                    <div class="card h-100 shadow-sm">
+                                        {% if post.image %}
+                                            <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}" style="height: 200px; object-fit: cover;">
+                                        {% endif %}
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ post.title }}</h5>
+                                            <p class="card-text">{{ post.content|truncatewords:20 }}</p>
+                                            <a href="{% url 'main:post_detail' post.id %}" class="btn btn-outline-primary">Batafsil</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-center text-muted">Hali hech qanday post qo‘shilmagan.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
-
-

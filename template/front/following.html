@@ -4,14 +4,23 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="text-center">Obuna bo'lganlar</h3>
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="fw-bold">📌 Obuna bo‘lganlar</h3>
                 </div>
                 <div class="card-body">
-                    {% for follow in following %}
-                        <a href="{% url 'main:user_profile_detail' follow.id %}">{{ follow.get_full_name }}</a>
-                    {% endfor %}
+                    {% if following %}
+                        <ul class="list-group mt-2">
+                            {% for follow in following %}
+                                <li class="list-group-item d-flex align-items-center">
+                                    <img src="{% if follow.profile_image %}{{ follow.profile_image.url }}{% else %}{% static 'images/profile.jpg' %}{% endif %}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <a href="{% url 'main:user_profile_detail' follow.id %}" class="fw-bold text-decoration-none text-dark">{{ follow.username }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-center text-muted">😔 Siz hali hech kimga obuna bo‘lmagansiz.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>

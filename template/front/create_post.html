@@ -5,36 +5,42 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="text-center">Yangi Post Yaratish</h3>
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="fw-bold">✨ Yangi Post Yaratish ✨</h3>
                 </div>
                 <div class="card-body">
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
 
                         <div class="form-group mb-3">
-                            <label for="title">Sarlavha</label>
-                            <input type="text" class="form-control" id="title" name="title" required>
+                            <label for="title" class="fw-bold">📝 Sarlavha</label>
+                            <input type="text" class="form-control border-2" id="title" name="title" placeholder="Sarlavha kiriting..." required>
                         </div>
 
                         <div class="form-group mb-3">
-                            <label for="content">Matn</label>
-                            <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+                            <label for="content" class="fw-bold">📜 Matn</label>
+                            <textarea class="form-control border-2" id="content" name="content" rows="5" placeholder="Matn yozing..." required></textarea>
                         </div>
+
                         <div class="form-group mb-3">
-                            <select class="form-control" id="tag" name="tag">
+                            <label for="tag" class="fw-bold">🏷️ Teglar</label>
+                            <select class="form-control border-2" id="tag" name="tag">
                                 {% for tag in tags %}
                                     <option value="{{ tag.id }}">{{ tag.name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
+
                         <div class="form-group mb-3">
-                            <label for="image">Rasm</label>
-                            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                            <label for="image" class="fw-bold">🖼️ Rasm</label>
+                            <input type="file" class="form-control border-2" id="image" name="image" accept="image/*">
                         </div>
+
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Post Yaratish</button>
+                            <button type="submit" class="btn btn-primary fw-bold px-4 py-2 shadow-sm" style="transition: 0.3s;">
+                                🚀 Post Yaratish
+                            </button>
                         </div>
                     </form>
                 </div>

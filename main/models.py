@@ -10,13 +10,18 @@ class CustomUser(AbstractUser):
     website = models.URLField(null=True, blank=True)
     telegram = models.URLField(null=True, blank=True)
     instagram = models.URLField(null=True, blank=True)
-    followers = models.ManyToManyField('self')
-    following = models.ManyToManyField('self')
+    following = models.ManyToManyField('self', symmetrical=False, related_name='followers', blank=True)
+    following = models.ManyToManyField('self', symmetrical=False, related_name='followers', blank=True)
     first_name = models.CharField(max_length=30, default='')
     last_name = models.CharField(max_length=30, default='')
 
     def __str__(self):
         return self.username
+
+    class Meta:
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
+        ordering = ['-id']
 
 
 class Tag(models.Model):
@@ -24,6 +29,10 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+    class Meta:
+        verbose_name = 'Tag'
+        verbose_name_plural = 'Tags'
+        ordering = ['-id']
 
 
 class Post(models.Model):
@@ -37,6 +46,27 @@ class Post(models.Model):
     def __str__(self):
         return self.text
 
+    @property
+    def likes(self):
+        return Like.objects.filter(post=self)
+
+    @property
+    def likes_count(self):
+        return self.likes.count()
+
+    @property
+    def comments(self):
+        return Comment.objects.filter(post=self)
+
+    @property
+    def comments_count(self):
+        return self.comments.count()
+
+    class Meta:
+        verbose_name = 'Post'
+        verbose_name_plural = 'Posts'
+        ordering = ['-id']
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -47,6 +77,11 @@ class Comment(models.Model):
     def __str__(self):
         return self.user.username
 
+    class Meta:
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
+        ordering = ['-id']
+
 
 class Like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -55,3 +90,8 @@ class Like(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    class Meta:
+        verbose_name = 'Like'
+        verbose_name_plural = 'Likes'
+        ordering = ['-id']

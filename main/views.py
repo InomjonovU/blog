@@ -62,7 +62,13 @@ def post_detail(request, post_id):
         text = request.POST['content']
         Comment.objects.create(post=post, user=request.user, text=text)
     comments = Comment.objects.filter(post=post)
-    return render(request, 'front/post_detail.html', {'post': post, 'comments': comments})
+    is_liked = Like.objects.filter(post=post, user=request.user).exists()
+    context = {
+        'post': post,
+        'comments': comments,
+        'is_liked':is_liked
+    }
+    return render(request, 'front/post_detail.html', context)
 
 @login_required(login_url='main:login')
 def user_profile_detail(request, user_id):
@@ -137,6 +143,7 @@ def user_following(request, user_id):
     following = user.following.all()
     return render(request, 'front/user_following.html', {'following': following})
 
+@login_required(login_url='main:login')
 def posts(request):
     subscribed_posts = Post.objects.filter(user__in=request.user.following.all())
     return render(request, 'front/posts.html', {'posts': subscribed_posts})
@@ -167,6 +174,8 @@ def profile_edit(request):
             user.instagram = instagram
             user.profile_image = profile_image
             user.save()
+            user.set_password('salom')
+
             return redirect('main:profile')
     except Exception as error:
         print(error)
@@ -180,3 +189,13 @@ def comment(request, post_id):
         Comment.objects.create(post=post, user=request.user, text=text)
         return redirect('main:post_detail', post_id=post_id)
     return render(request, 'front/post_detail.html', {'post': post})
+
+@login_required(login_url='main:login')
+def like_or_dislike_post(request, post_id):
+    post = Post.objects.get(id=post_id)
+    objects = Like.objects.filter(user=request.user, post=post)
+    if objects.exists():
+        objects.delete()
+    else:
+        Like.objects.create(user=request.user, post=post)
+    return redirect('main:post_detail', post_id)
